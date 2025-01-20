@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <main
       className="flex-grow flex items-center justify-center bg-cover bg-center"
-      style={{ backgroundImage: "url('/image/home.avif')" }}  // Background image remains
+      style={{ backgroundImage: "url('/image/hero.png')" }}  // Background image remains
     >
       <button
         onClick={() => navigate('/products')}  // Navigate to the products page
