@@ -1,14 +1,22 @@
-const products = [
-  { id: 1, name: 'Sunscreen', price: 99.99, image: '/image/sunscreen.jpeg' },
-  { id: 2, name: 'Detan face wash', price: 149.99, image: '/image/sunscreen.jpeg' },
-  { id: 3, name: 'Detan Kit', price: 199.99, image: '/image/sunscreen.jpeg' },
-  { id: 4, name: 'Pimple gel', price: 99.99, image: '/image/sunscreen.jpeg' },
-  { id: 5, name: 'Pimple face wash', price: 149.99, image: '/image/sunscreen.jpeg' },
-  { id: 6, name: 'Blemish gel', price: 199.99, image: '/image/sunscreen.jpeg' },
-  { id: 7, name: 'Blemish face wash', price: 99.99, image: '/image/sunscreen.jpeg' },
-  { id: 8, name: 'Fairness cream with SPF 20', price: 149.99, image: '/image/sunscreen.jpeg' },
-  { id: 9, name: 'Fairness moisturiser with SPF 25', price: 199.99, image: '/image/sunscreen.jpeg' },
-  { id: 10, name: 'P++ lotion', price: 99.99, image: '/image/sunscreen.jpeg' },
-];
+const fetchProducts = async () => {
+  try {
+    const response = await fetch('http://localhost:5000/api/products');
+    const data = await response.json();
+    return data.map(product => ({
+      id: product._id,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      image: product.images[0],
+    }));
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    return [];
+  }
+};
+
+const products = await fetchProducts();
+
+console.log(products);
 
 export default products;
