@@ -21,12 +21,18 @@ const App = () => {
   // Handle Login Success
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
+    alert(`Logged in Successfully`);
     navigate('/');  // Redirect to Home after login
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    alert(`Logged out Successfully`);
   };
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header cartCount={cart.length} isLoggedIn={isLoggedIn} />
+      <Header cartCount={cart.length} isLoggedIn={isLoggedIn} onLogout={handleLogout} />
 
       <Routes>
         <Route path="/" element={<Home />} />

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { User, ShoppingCart } from 'lucide-react';
 import '../App.css';
 
-const Header = ({ cartCount, isLoggedIn, userName }) => {
+const Header = ({ cartCount, isLoggedIn, userName, onLogout }) => {
   const navigate = useNavigate();
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const profileRef = useRef();
@@ -62,7 +62,7 @@ const Header = ({ cartCount, isLoggedIn, userName }) => {
               <p className="p-4 text-gray-800 font-medium">{userName}</p>
               <button
                 onClick={() => {
-                  // Add logout functionality here if needed
+                  onLogout();
                   navigate('/');
                   setShowProfilePopup(false);
                 }}
