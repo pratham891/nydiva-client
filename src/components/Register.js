@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
+const Register = ({ onRegisterSuccess, setCookie }) => {
   const navigate = useNavigate();  // Initialize useNavigate
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
 
@@ -11,9 +11,12 @@ const Register = () => {
   };
 
   const handleRegisterSuccess = () => {
-    alert(`Registered Successfully`);
-    // Navigate to login after successful registration
-    navigate('/');
+    // Set cookies for username and email
+    setCookie('username', formData.name, 7);
+    setCookie('email', formData.email, 7);
+
+    // Call the onRegisterSuccess function passed as a prop
+    onRegisterSuccess(formData.name, formData.email);
   };
 
   const handleSubmit = async (e) => {

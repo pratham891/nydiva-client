@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Login = ({ onLoginSuccess }) => {
+const Login = ({ onLoginSuccess, setCookie }) => {
   const navigate = useNavigate();  // Initialize useNavigate
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ username: '', email: '', password: '' });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +22,11 @@ const Login = ({ onLoginSuccess }) => {
       });
 
       if (response.ok) {
-        onLoginSuccess();
+        const data = await response.json();
+        setFormData({ ...formData, username: data.username });
+        setCookie('username', data.username, 7);
+        setCookie('email', formData.email, 7);
+        onLoginSuccess(formData.username, formData.email);
       } else {
         console.error('Login failed');
       }
