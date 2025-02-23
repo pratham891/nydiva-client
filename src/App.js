@@ -8,12 +8,21 @@ import Cart from './components/Cart';
 import Payment from './components/Payment';
 import Login from './components/Login';
 import Register from './components/Register';
+import Profile from './components/Profile';
+import UpdateAddress from './components/UpdateAddress';
 import products from './sample products/sampleProducts';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cart, setCart] = useState([]);
-  const [userDetails, setUserDetails] = useState({ username: '', email: '' });
+  const [userDetails, setUserDetails] = useState({ username: '', email: '', address: {
+    line01: '',
+    line02: '',
+    city: '',
+    state: '',
+    zip: '',
+    country: ''
+  } });
   const navigate = useNavigate();
 
   const setCookie = (name, value, days) => {
@@ -23,6 +32,7 @@ const App = () => {
     document.cookie = `${name}=${value}; ${expires}; path=/`;
   };
 
+  // read cookie on App on load
   useEffect(() => {
     const getCookie = (name) => {
       const value = `; ${document.cookie}`;
@@ -73,27 +83,13 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Home />} />
-
-        {/* Pass products and addToCart to ProductPage */}
-        <Route
-          path="/products"
-          element={<ProductPage products={products} addToCart={addToCart} />}
-        />
-
+        <Route path="/products" element={<ProductPage products={products} addToCart={addToCart} />} />
         <Route path="/cart" element={<Cart cart={cart} />} />
-        <Route path="/payment" element={<Payment />} />
-
-        <Route
-          path="/login"
-          element={<Login onLoginSuccess={handleLoginSuccess} setCookie={setCookie} />}
-        />
-
         <Route path="/payment" element={<Payment clearCart={() => setCart([])} />} />
-
-        <Route
-          path="/register"
-          element={<Register onRegisterSuccess={handleRegisterSuccess} setCookie={setCookie} />}
-        />
+        <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} setCookie={setCookie} />} />
+        <Route path="/register" element={<Register onRegisterSuccess={handleRegisterSuccess} setCookie={setCookie} />} />
+        <Route path="/profile" element={<Profile userDetails={userDetails} />} />
+        <Route path="/update-address" element={<UpdateAddress userDetails={userDetails} />} />
       </Routes>
       <Footer />
     </div>
