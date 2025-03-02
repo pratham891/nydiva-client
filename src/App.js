@@ -10,11 +10,13 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
 import UpdateAddress from './components/UpdateAddress';
+import Checkout from './components/Checkout';
 import products from './sample products/sampleProducts';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cart, setCart] = useState([]);
+  const [items, setItems] = useState([]);
   const [userDetails, setUserDetails] = useState({ username: '', email: '', address: {
     line01: '',
     line02: '',
@@ -50,7 +52,16 @@ const App = () => {
   }, []);
 
   // Add to Cart Function
-  const addToCart = (product) => setCart([...cart, product]);
+  const addToCart = (product) => {
+    setCart([...cart, { ...product, quantity: 1 }]);
+    setItems([...items, { productId: product.id, quantity: 1 }]);
+  };
+
+  // Update Item Quantity Function
+  const updateItemQuantity = (productId, quantity) => {
+    setCart(cart.map(item => item.id === productId ? { ...item, quantity } : item));
+    setItems(items.map(item => item.productId === productId ? { ...item, quantity } : item));
+  };
 
   // Handle Login Success
   const handleLoginSuccess = (username, email) => {
@@ -84,7 +95,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductPage products={products} addToCart={addToCart} />} />
-        <Route path="/cart" element={<Cart cart={cart} />} />
+        <Route path="/cart" element={<Cart cart={cart} updateItemQuantity={updateItemQuantity} />} />
+        <Route path="/checkout" element={<Checkout cart={cart} userDetails={userDetails} items={items} />} />
         <Route path="/payment" element={<Payment clearCart={() => setCart([])} />} />
         <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} setCookie={setCookie} />} />
         <Route path="/register" element={<Register onRegisterSuccess={handleRegisterSuccess} setCookie={setCookie} />} />

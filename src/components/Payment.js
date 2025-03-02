@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const Payment = ({ clearCart }) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [orderCompleted, setOrderCompleted] = useState(false);
+  const [paymentFailed, setPaymentFailed] = useState(false);
   const navigate = useNavigate();
 
   const handlePayment = (option) => {
@@ -25,10 +26,19 @@ const Payment = ({ clearCart }) => {
     }, 3000);
   };
 
+  const failOrder = () => {
+    setPaymentFailed(true);
+
+    // Redirect to cart after 3 seconds
+    setTimeout(() => {
+      navigate('/cart');
+    }, 3000);
+  };
+
   return (
     <main className="flex-grow p-8 bg-gray-50">
       <div className="max-w-md mx-auto bg-white rounded-lg shadow p-6">
-        {!orderCompleted ? (
+        {!orderCompleted && !paymentFailed ? (
           <>
             <h2 className="text-2xl font-bold mb-6">Payment Options</h2>
             <div className="space-y-4">
@@ -74,13 +84,22 @@ const Payment = ({ clearCart }) => {
                 >
                   Complete Order
                 </button>
+                <button
+                  onClick={failOrder}
+                  className="mt-4 w-full bg-red-600 text-white py-2 rounded hover:bg-red-700"
+                >
+                  Fail Order
+                </button>
               </div>
             )}
           </>
+        ) : orderCompleted ? (
+          <div className="fixed inset-0 flex flex-col items-center justify-center bg-green-500 text-white text-3xl font-bold">
+            <div>Order Placed!</div><div className="text-1xl weight-100">Redirecting to home page...</div>
+          </div>
         ) : (
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-green-600">Order Completed!</h2>
-            <p className="mt-4">Thank you for shopping with us! Redirecting to the homepage...</p>
+          <div className="fixed inset-0 flex flex-col items-center justify-center bg-red-500 text-white text-3xl font-bold">
+            <div>Payment Failed!</div><div className="text-1xl">Please try again...</div>
           </div>
         )}
       </div>
