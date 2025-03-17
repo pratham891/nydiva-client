@@ -96,7 +96,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductPage products={products} addToCart={addToCart} />} />
         <Route path="/cart" element={<Cart cart={cart} updateItemQuantity={updateItemQuantity} />} />
-        <Route path="/checkout" element={<Checkout cart={cart} userDetails={userDetails} items={items} />} />
+        <Route path="/checkout" element={<Checkout cart={cart} userDetails={userDetails} items={items} clearCart={() => setCart([])} />} />
         <Route path="/payment" element={<Payment clearCart={() => setCart([])} />} />
         <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} setCookie={setCookie} />} />
         <Route path="/register" element={<Register onRegisterSuccess={handleRegisterSuccess} setCookie={setCookie} />} />
