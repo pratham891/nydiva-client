@@ -24,9 +24,10 @@ const Login = ({ onLoginSuccess, setCookie }) => {
       if (response.ok) {
         const data = await response.json();
         setFormData({ ...formData, username: data.username });
+        setCookie('userId', data.userId, 7);
         setCookie('username', data.username, 7);
         setCookie('email', formData.email, 7);
-        onLoginSuccess(formData.username, formData.email);
+        onLoginSuccess(data.userId, formData.username, formData.email);
       } else {
         console.error('Login failed');
       }

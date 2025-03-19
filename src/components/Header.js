@@ -58,8 +58,11 @@ const Header = ({ cartCount, isLoggedIn, userName, onLogout }) => {
 
           {/* Profile Popup */}
           {showProfilePopup && (
-            <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg">
-              <p className="p-4 text-gray-800 font-medium cursor-pointer" onClick={() => navigate('/profile')}>{userName}</p>
+            <div className="absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg">
+              <p className="px-4 py-2 text-gray-800 font-medium cursor-pointer" onClick={() => navigate('/profile')}>View Profile</p>
+
+              <p className="px-4 py-1 text-gray-800 font-medium cursor-pointer" onClick={() => navigate('/my-orders')}>View My Orders</p>
+
               <button
                 onClick={() => {
                   onLogout();

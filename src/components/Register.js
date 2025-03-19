@@ -10,13 +10,14 @@ const Register = ({ onRegisterSuccess, setCookie }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleRegisterSuccess = () => {
+  const handleRegisterSuccess = (userId) => {
+    setCookie('userId', userId, 7);
     // Set cookies for username and email
     setCookie('username', formData.name, 7);
     setCookie('email', formData.email, 7);
 
     // Call the onRegisterSuccess function passed as a prop
-    onRegisterSuccess(formData.name, formData.email);
+    onRegisterSuccess(userId, formData.name, formData.email);
   };
 
   const handleSubmit = async (e) => {
@@ -31,7 +32,8 @@ const Register = ({ onRegisterSuccess, setCookie }) => {
       });
 
       if (response.ok) {
-        handleRegisterSuccess();
+        const userData = await response.json();
+        handleRegisterSuccess(userData.userId);
       } else {
         console.error('Registration failed');
       }

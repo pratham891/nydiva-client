@@ -1,8 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Cart = ({ cart, updateItemQuantity }) => {
+const Cart = ({ cart, updateItemQuantity, isLoggedIn }) => {
   const navigate = useNavigate();  // Initialize useNavigate
+
+  // handle navigate to checkout page
+  const navigateToCheckout = () => {
+    if (isLoggedIn) {
+      navigate('/checkout');
+    } else {
+      alert(`Please login to proceed to checkout`);
+      navigate('/login');
+    }
+  }
 
   const handleQuantityChange = (productId, quantity) => {
     updateItemQuantity(productId, quantity);
@@ -44,7 +54,7 @@ const Cart = ({ cart, updateItemQuantity }) => {
           <div className="mt-6 text-right">
             <p className="text-xl font-bold">Total: ${total.toFixed(2)}</p>
             <button
-              onClick={() => navigate('/checkout')}  // Navigate to Payment page
+              onClick={navigateToCheckout}
               className="mt-4 bg-blue-600 text-white px-8 py-3 rounded hover:bg-blue-700"
             >
               Proceed to Checkout

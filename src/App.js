@@ -12,19 +12,25 @@ import Profile from './components/Profile';
 import UpdateAddress from './components/UpdateAddress';
 import Checkout from './components/Checkout';
 import products from './sample products/sampleProducts';
+import Orders from './components/Orders';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cart, setCart] = useState([]);
   const [items, setItems] = useState([]);
-  const [userDetails, setUserDetails] = useState({ username: '', email: '', address: {
-    line01: '',
-    line02: '',
-    city: '',
-    state: '',
-    zip: '',
-    country: ''
-  } });
+  const [userDetails, setUserDetails] = useState({
+    userId: '',
+    username: '',
+    email: '',
+    address: {
+      line01: '',
+      line02: '',
+      city: '',
+      state: '',
+      zip: '',
+      country: ''
+    }
+  });
   const navigate = useNavigate();
 
   const setCookie = (name, value, days) => {
@@ -42,11 +48,12 @@ const App = () => {
       if (parts.length === 2) return parts.pop().split(';').shift();
     };
 
+    const userId = getCookie('userId');
     const username = getCookie('username');
     const email = getCookie('email');
 
-    if (username && email) {
-      setUserDetails({ username, email });
+    if (userId, username && email) {
+      setUserDetails({ userId, username, email });
       setIsLoggedIn(true);
     }
   }, []);
@@ -64,9 +71,9 @@ const App = () => {
   };
 
   // Handle Login Success
-  const handleLoginSuccess = (username, email) => {
+  const handleLoginSuccess = (userId, username, email) => {
     setIsLoggedIn(true);
-    setUserDetails({ username, email });
+    setUserDetails({ userId, username, email });
     alert(`Logged in Successfully`);
     navigate('/');  // Redirect to Home after login
     window.location.reload();
@@ -74,16 +81,18 @@ const App = () => {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    setUserDetails({ username: '', email: '' });
+    setUserDetails({ userId: '', username: '', email: '' });
+    document.cookie = 'userId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     document.cookie = 'email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     alert(`Logged out Successfully`);
   };
 
   // Handle Register Success
-  const handleRegisterSuccess = (username, email) => {
+  const handleRegisterSuccess = (userId, username, email) => {
     setIsLoggedIn(true);
-    setUserDetails({ username, email });
+    setUserDetails({ userId, username, email });
     alert(`Registered Successfully`);
     navigate('/');  // Redirect to Home after registration
   };
@@ -95,13 +104,14 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductPage products={products} addToCart={addToCart} />} />
-        <Route path="/cart" element={<Cart cart={cart} updateItemQuantity={updateItemQuantity} />} />
+        <Route path="/cart" element={<Cart cart={cart} updateItemQuantity={updateItemQuantity} isLoggedIn={isLoggedIn} />} />
         <Route path="/checkout" element={<Checkout cart={cart} userDetails={userDetails} items={items} clearCart={() => setCart([])} />} />
         <Route path="/payment" element={<Payment clearCart={() => setCart([])} />} />
         <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} setCookie={setCookie} />} />
         <Route path="/register" element={<Register onRegisterSuccess={handleRegisterSuccess} setCookie={setCookie} />} />
         <Route path="/profile" element={<Profile userDetails={userDetails} />} />
         <Route path="/update-address" element={<UpdateAddress userDetails={userDetails} />} />
+        <Route path="/my-orders" element={<Orders userDetails={userDetails} />} />
       </Routes>
       <Footer />
     </div>
