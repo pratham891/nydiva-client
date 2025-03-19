@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Cart = ({ cart, updateItemQuantity, isLoggedIn, clearCart }) => {
+const Cart = ({ cart, updateItemQuantity, isLoggedIn, clearCart, removeFromCart }) => {
   const navigate = useNavigate();  // Initialize useNavigate
 
   // handle navigate to checkout page
@@ -15,7 +15,9 @@ const Cart = ({ cart, updateItemQuantity, isLoggedIn, clearCart }) => {
   }
 
   const handleQuantityChange = (productId, quantity) => {
-    updateItemQuantity(productId, quantity);
+    if (quantity >= 1) {
+      updateItemQuantity(productId, quantity);
+    }
   };
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -37,14 +39,27 @@ const Cart = ({ cart, updateItemQuantity, isLoggedIn, clearCart }) => {
                   <p className="text-gray-600">${item.price}</p>
                 </div>
               </div>
-              <div>
-                <input
-                  type="number"
-                  min="1"
-                  value={item.quantity}
-                  onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value))}
-                  className="w-16 p-2 border rounded"
-                />
+              <div className="flex items-center">
+                <button
+                  onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                  className="bg-gray-300 text-gray-700 px-2 py-1 rounded hover:bg-gray-400"
+                  disabled={item.quantity <= 1}
+                >
+                  -
+                </button>
+                <span className="mx-2">{item.quantity}</span>
+                <button
+                  onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                  className="bg-gray-300 text-gray-700 px-2 py-1 rounded hover:bg-gray-400"
+                >
+                  +
+                </button>
+                <button
+                  onClick={() => removeFromCart(item.id)}
+                  className="ml-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                >
+                  &#10005;
+                </button>
               </div>
             </div>
           ))

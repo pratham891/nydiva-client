@@ -70,6 +70,12 @@ const App = () => {
     setItems([]);
   };
 
+  // Remove from Cart function
+  const removeFromCart = (productId) => {
+    setCart(cart.filter(item => item.id !== productId));
+    setItems(items.filter(item => item.productId !== productId));
+  };
+
   // Update Item Quantity Function
   const updateItemQuantity = (productId, quantity) => {
     setCart(cart.map(item => item.id === productId ? { ...item, quantity } : item));
@@ -110,7 +116,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductPage products={products} addToCart={addToCart} />} />
-        <Route path="/cart" element={<Cart cart={cart} updateItemQuantity={updateItemQuantity} isLoggedIn={isLoggedIn} clearCart={clearCart} />} />
+        <Route path="/cart" element={<Cart cart={cart} updateItemQuantity={updateItemQuantity} isLoggedIn={isLoggedIn} clearCart={clearCart} removeFromCart={removeFromCart} />} />
         <Route path="/checkout" element={<Checkout cart={cart} userDetails={userDetails} items={items} clearCart={clearCart} />} />
         <Route path="/payment" element={<Payment clearCart={() => setCart([])} />} />
         <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} setCookie={setCookie} />} />
