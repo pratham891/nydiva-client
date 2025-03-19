@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Cart = ({ cart, updateItemQuantity, isLoggedIn }) => {
+const Cart = ({ cart, updateItemQuantity, isLoggedIn, clearCart }) => {
   const navigate = useNavigate();  // Initialize useNavigate
 
   // handle navigate to checkout page
@@ -58,6 +58,12 @@ const Cart = ({ cart, updateItemQuantity, isLoggedIn }) => {
               className="mt-4 bg-blue-600 text-white px-8 py-3 rounded hover:bg-blue-700"
             >
               Proceed to Checkout
+            </button>
+            <button
+              onClick={clearCart}
+              className="mt-4 ml-4 bg-red-600 text-white px-8 py-3 rounded hover:bg-red-700"
+            >
+              Clear Cart
             </button>
           </div>
         )}

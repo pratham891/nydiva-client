@@ -52,7 +52,7 @@ const App = () => {
     const username = getCookie('username');
     const email = getCookie('email');
 
-    if (userId, username && email) {
+    if (userId && username && email) {
       setUserDetails({ userId, username, email });
       setIsLoggedIn(true);
     }
@@ -62,6 +62,12 @@ const App = () => {
   const addToCart = (product) => {
     setCart([...cart, { ...product, quantity: 1 }]);
     setItems([...items, { productId: product.id, quantity: 1 }]);
+  };
+
+  // Clear Cart function
+  const clearCart = () => {
+    setCart([]);
+    setItems([]);
   };
 
   // Update Item Quantity Function
@@ -104,8 +110,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductPage products={products} addToCart={addToCart} />} />
-        <Route path="/cart" element={<Cart cart={cart} updateItemQuantity={updateItemQuantity} isLoggedIn={isLoggedIn} />} />
-        <Route path="/checkout" element={<Checkout cart={cart} userDetails={userDetails} items={items} clearCart={() => setCart([])} />} />
+        <Route path="/cart" element={<Cart cart={cart} updateItemQuantity={updateItemQuantity} isLoggedIn={isLoggedIn} clearCart={clearCart} />} />
+        <Route path="/checkout" element={<Checkout cart={cart} userDetails={userDetails} items={items} clearCart={clearCart} />} />
         <Route path="/payment" element={<Payment clearCart={() => setCart([])} />} />
         <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} setCookie={setCookie} />} />
         <Route path="/register" element={<Register onRegisterSuccess={handleRegisterSuccess} setCookie={setCookie} />} />
