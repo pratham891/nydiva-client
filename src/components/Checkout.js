@@ -96,7 +96,7 @@ const Checkout = ({ cart, userDetails, items, clearCart }) => {
         const postOrderId = data.orderId;
 
         // send details to backend server for payment verification
-        fetch('http://localhost:5000/api/payments/verify', {
+        fetch('/api/payments/verify', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ const Checkout = ({ cart, userDetails, items, clearCart }) => {
           return sum + item.price * item.quantity;
         }, 0);
 
-        const response = await fetch('http://localhost:5000/api/orders/', {
+        const response = await fetch('/api/orders/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
