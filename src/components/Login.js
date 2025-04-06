@@ -13,7 +13,8 @@ const Login = ({ onLoginSuccess, setCookie }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/auth/login', {
+      const baseUrl = 'https://nydiva-backend.vercel.app' || '';
+      const response = await fetch(`${baseUrl}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

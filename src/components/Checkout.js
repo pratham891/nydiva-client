@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Checkout = ({ cart, userDetails, items, clearCart }) => {
+  const baseUrl = 'https://nydiva-backend.vercel.app' || '';
   const [orderCompleted, setOrderCompleted] = useState(false);
   const [paymentFailed, setPaymentFailed] = useState(false);
   const [paymentMode, setPaymentMode] = useState('');
@@ -42,7 +43,7 @@ const Checkout = ({ cart, userDetails, items, clearCart }) => {
   useEffect(() => {
     const fetchAddress = async () => {
       try {
-        const response = await fetch(`/api/user/${userDetails.email}`);
+        const response = await fetch(`${baseUrl}/api/user/${userDetails.email}`);
         if (response.ok) {
           const data = await response.json();
           setAddress(data.address && data.address.length > 0 ? data.address[0] : {
@@ -96,7 +97,7 @@ const Checkout = ({ cart, userDetails, items, clearCart }) => {
         const postOrderId = data.orderId;
 
         // send details to backend server for payment verification
-        fetch('/api/payments/verify', {
+        fetch(`${baseUrl}/api/payments/verify`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -139,7 +140,7 @@ const Checkout = ({ cart, userDetails, items, clearCart }) => {
           return sum + item.price * item.quantity;
         }, 0);
 
-        const response = await fetch('/api/orders/', {
+        const response = await fetch(`${baseUrl}/api/orders/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -23,7 +23,8 @@ const UpdateAddress = ({ userDetails }) => {
     // console.log('Updating address:', JSON.stringify({address}));
     
     try {
-      const response = await fetch(`/api/user/${userDetails.email}/update-address`, {
+      const baseUrl = 'https://nydiva-backend.vercel.app' || '';
+      const response = await fetch(`${baseUrl}/api/user/${userDetails.email}/update-address`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

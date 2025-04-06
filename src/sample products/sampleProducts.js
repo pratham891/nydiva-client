@@ -1,6 +1,7 @@
 const fetchProducts = async () => {
   try {
-    const response = await fetch('/api/products');
+    const baseUrl = 'https://nydiva-backend.vercel.app' || '';
+    const response = await fetch(`${baseUrl}/api/products`);
     const data = await response.json();
     return data.map(product => ({
       id: product._id,

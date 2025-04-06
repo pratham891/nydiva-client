@@ -23,7 +23,8 @@ const Register = ({ onRegisterSuccess, setCookie }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/auth/signup', {
+      const baseUrl = 'https://nydiva-backend.vercel.app' || '';
+      const response = await fetch(`${baseUrl}/api/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

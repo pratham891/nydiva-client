@@ -12,7 +12,8 @@ const Orders = ({ userDetails }) => {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch(`/api/orders/${userDetails.userId}`);
+      const baseUrl = 'https://nydiva-backend.vercel.app' || '';
+      const response = await fetch(`${baseUrl}/api/orders/${userDetails.userId}`);
       if (!response.ok) {
         console.log('Failed to fetch orders');
         return;

@@ -19,7 +19,8 @@ const Profile = ({ userDetails }) => {
     // Fetch user details from the backend
     const fetchProfileDetails = async () => {
       try {
-        const response = await fetch(`/api/user/${userDetails.email}`);
+        const baseUrl = 'https://nydiva-backend.vercel.app' || '';
+        const response = await fetch(`${baseUrl}/api/user/${userDetails.email}`);
         if (response.ok) {
           const data = await response.json();
           setProfileDetails({
